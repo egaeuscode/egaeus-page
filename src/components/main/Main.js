@@ -13,7 +13,9 @@ export default function Main() {
     const classes = mainStyles();
 
     return (
+
         <div className={classes.root}>
+            {console.log("Main")}
             <AppBar position="static" className={classes.appBar}>
                 <Toolbar>
                     <img edge="start" className={classes.menuButton} color="inherit" src={logo} alt="Logo" />

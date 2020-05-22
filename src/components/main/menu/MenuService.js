@@ -1,3 +1,5 @@
+import db from "../../../config/firebase";
+
 const data = {
     categories: [
         {
@@ -65,4 +67,11 @@ const data = {
     ]
 }
 
-export default data;
+export function getCategoriesService() {
+    return db.firestore().collection("classes").get();
+}
+
+export function getAlgorithmsService() {
+    return db.firestore().collection("algorithms").get();
+
+}
