@@ -1,35 +1,66 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import mainStyles from './MainStyle';
-import logo from '../../assets/3logo.png';
-import Menu from './menu/Menu'
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Paper from '@material-ui/core/Paper';
+import algorithmStyles from "./AlgorithmStyle";
+import { useTheme } from '@material-ui/core/styles';
+import SwipeableViews from 'react-swipeable-views';
+import {useParams} from 'react-router-dom';
 
-export default function Main() {
-    const classes = mainStyles();
+export default function Algorithm() {
+    const classes = algorithmStyles();
+    const theme = useTheme();
+    const [value, setValue] = React.useState(0);
+    const [id, setId] = React.useState(undefined);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+        setId(idAlgorithm);
+    };
+
+    const handleChangeIndex = (index) => {
+        setValue(index);
+        setId(idAlgorithm);
+    };
+
+    let { idAlgorithm } = useParams();
+
+    if(idAlgorithm !== id) {
+        //const algorithm = data.algorithms
+    }
 
     return (
-        <div className={classes.root}>
-            <AppBar position="static" className={classes.appBar}>
-                <Toolbar>
-                    <img edge="start" className={classes.menuButton} color="inherit" src={logo} alt="Logo" />
-                    <Typography variant="h6" className={classes.title}>
-                        Donde éste
-                    </Typography>
-                    <Button color="inherit">Algoritmos</Button>
-                    <Button color="inherit">Vídeos</Button>
-                </Toolbar>
-            </AppBar>
-            <div className={classes.center}>
-                <div className={classes.menu}>
-                    <Menu></Menu>
+        <Paper className={classes.root}>
+            <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor = "primary"
+                textColor = "primary"
+                variant="fullWidth"
+            >
+                <Tab label="Descripción" />
+                <Tab label="Código" />
+                <Tab label="Ejercicios" />
+                <Tab label="Vídeo" />
+            </Tabs>
+            <SwipeableViews
+                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                index={value}
+                onChangeIndex={handleChangeIndex}
+            >
+                <div>
+                    {idAlgorithm}
                 </div>
-            </div>
-            <div className={classes.footer}>
-
-            </div>
-        </div>
+                <div>
+                    Item Two
+                </div>
+                <div>
+                    Item Three
+                </div>
+                <div>
+                    Item Four
+                </div>
+            </SwipeableViews>
+        </Paper>
     );
 }

@@ -1,16 +1,26 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const mainStyles = makeStyles((theme) => ({
+const menuStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,
+        width: '100%',
     },
-    menuButton: {
-        marginRight: theme.spacing(2),
-        height: 50,
+    heading: {
+        fontSize: theme.typography.pxToRem(15),
+        flex: 1,
+        flexShrink: 0,
     },
-    title: {
-        flexGrow: 1,
+    secondaryHeading: {
+        fontSize: theme.typography.pxToRem(15),
+        color: theme.palette.text.secondary,
     },
+    menuExpansionPanelDetails: {
+        flexDirection: 'column',
+    },
+    itemMenu: {
+        fontSize: theme.typography.pxToRem(15),
+        margin: 10,
+        cursor: "pointer",
+    }
 }));
 
-export default mainStyles;
+export default menuStyles;
