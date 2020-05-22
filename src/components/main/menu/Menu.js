@@ -37,7 +37,7 @@ export default function Menu() {
         return categories.map(category => {
             return (
                 <ExpansionPanel expanded={expanded === 'panel' + category.id}
-                                onChange={handleChange('panel' + +category.id)} key={category.id}>
+                                onChange={handleChange('panel' + category.id)} key={category.id}>
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon/>}
                         aria-controls="panel1bh-content"
@@ -58,7 +58,6 @@ export default function Menu() {
             return algorithms[idCategory].map(algorithm => {
                     return (
                         <Link to={'/algorithms/' + algorithm.id} key={algorithm.id}>
-                            {console.log("-----",algorithm)}
                             <Typography className={classes.itemMenu}>
                                 {algorithm.name}
                             </Typography>
