@@ -8,6 +8,7 @@ import SwipeableViews from 'react-swipeable-views';
 import {useParams} from 'react-router-dom';
 import {getAlgorithmsService} from './AlgorithmService';
 import Typography from '@material-ui/core/Typography';
+import MathJax from 'react-mathjax2'
 
 export default function Algorithm() {
     const classes = algorithmStyles();
@@ -83,9 +84,9 @@ export default function Algorithm() {
                 <div className={classes.allInfo}>
                     <div className={classes.rowInfo}>
                         <Typography className={classes.subtitleInfo}>Complejidad: </Typography>
-                        <Typography>
-                            {algorithm && algorithm.complexity ? algorithm.complexity : '?'}
-                        </Typography>
+                        <MathJax.Context>
+                            <MathJax.Node>{ algorithm?.complexity }</MathJax.Node>
+                        </MathJax.Context>
                     </div>
                     <div className={classes.rowInfo}>
                         <Typography className={classes.subtitleInfo}>Autor: </Typography>
