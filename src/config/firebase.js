@@ -1,6 +1,6 @@
-//import * as firebase from "firebase";
 import firebase from "firebase/app";
 import 'firebase/firestore'
+import 'firebase/storage'
 
 const firebaseConfig = {
     apiKey: "AIzaSyDkx9fyE70VJEV6QXlCvS4HPlKGxO-wCIg",
@@ -11,6 +11,6 @@ const firebaseConfig = {
     messagingSenderId: "879335604213",
     appId: "1:879335604213:web:f2f01b18398ead1f49aabc"
 };
-let db = firebase.initializeApp(firebaseConfig);
-
+export const db = firebase.initializeApp(firebaseConfig);
+export const storageRef = firebase.app().storage("gs://egaeus-75c1e.appspot.com").ref();
 export default  db;

@@ -1,4 +1,4 @@
-import db from "../../../config/firebase";
+import { db } from "../../../config/firebase";
 
 export function getCategoriesService() {
     return db.firestore().collection("classes").get();
