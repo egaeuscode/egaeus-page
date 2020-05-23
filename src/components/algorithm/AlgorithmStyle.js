@@ -6,6 +6,7 @@ const algorithmStyles = makeStyles((theme) => ({
         display: 'flex',
         height: '100%',
         flexDirection: 'row',
+        margin: 10,
     },
     content: {
         flex: 1

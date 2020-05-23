@@ -8,6 +8,7 @@ import Menu from './menu/Menu'
 import Algorithm from '../algorithm/Algorithm';
 import {Route} from 'react-router-dom'
 import {Link} from "@material-ui/core";
+import News from "../news/News";
 
 export default function Main() {
     const classes = mainStyles();
@@ -15,10 +16,11 @@ export default function Main() {
     return (
 
         <div className={classes.root}>
-            {console.log("Main")}
             <AppBar position="static" className={classes.appBar}>
                 <Toolbar>
-                    <img edge="start" className={classes.menuButton} color="inherit" src={logo} alt="Logo" />
+                    <Link href={'/algorithms'}>
+                        <img edge="start" className={classes.menuButton} color="inherit" src={logo} alt="Logo" />
+                    </Link>
                     <Typography variant="h6" className={classes.title}>
                         egaeus
                     </Typography>
@@ -40,6 +42,9 @@ export default function Main() {
                 <div className={classes.content}>
                     <Route path={'/algorithms/:idAlgorithm'}>
                         <Algorithm></Algorithm>
+                    </Route>
+                    <Route path={['/algorithms', '/']}>
+                        <News></News>
                     </Route>
                 </div>
             </div>

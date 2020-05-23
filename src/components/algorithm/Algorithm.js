@@ -30,7 +30,6 @@ export default function Algorithm() {
     let {idAlgorithm} = useParams();
 
     if (idAlgorithm !== id) {
-        console.log('-----------')
         setId(idAlgorithm);
         getAlgorithmsService(idAlgorithm).then(snapshot => {
             const alg = snapshot.data();

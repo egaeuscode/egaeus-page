@@ -28,7 +28,6 @@ const mainStyles = makeStyles((theme) => ({
     center: {
         flex: 1,
         backgroundColor: colors.white,
-        margin: 10,
         flexDirection: 'row',
         display: 'flex',
         overflow: 'hidden',
