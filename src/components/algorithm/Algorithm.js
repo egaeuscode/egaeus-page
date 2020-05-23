@@ -34,7 +34,7 @@ export default function Algorithm() {
 
     if (idAlgorithm !== id) {
         setId(idAlgorithm);
-        loadAlgorithm()
+        loadAlgorithm();
         getAlgorithmsService(idAlgorithm).then(snapshot => {
             const alg = snapshot.data();
             alg['id'] = snapshot.id;

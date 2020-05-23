@@ -47,7 +47,7 @@ export default function News() {
             return (
                 <li className={classes.news} key={item.id}>
                     {item.description}
-                    <Link href={item.link}>
+                    <Link href={item.link} style={{display: item.link?'':'none'}} target={'__blank'}>
                         <img style={{height: 15, marginLeft: 10}} alt={"link"} src={require('../../assets/flecha.png')}></img>
                     </Link>
                 </li>
