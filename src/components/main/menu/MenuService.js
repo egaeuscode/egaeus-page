@@ -5,6 +5,6 @@ export function getCategoriesService() {
 }
 
 export function getAlgorithmsService() {
-    return db.firestore().collection("algorithms").get();
+    return db.firestore().collection("algorithms").orderBy('name').get();
 
 }

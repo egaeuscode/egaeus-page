@@ -10,6 +10,7 @@ const mainStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: theme.spacing(2),
         height: 50,
+        color: colors.white,
     },
     title: {
         flexGrow: 1,
@@ -30,11 +31,22 @@ const mainStyles = makeStyles((theme) => ({
         margin: 10,
         flexDirection: 'row',
         display: 'flex',
+        overflow: 'hidden',
     },
     content: {
         flex: 1,
         height: '100%',
         marginLeft: 10,
+    },
+    youtubeImage: {
+        height: 25
+    },
+    codefocesImage: {
+        height: 45,
+        marginRight: 12
+    },
+    githubImage: {
+        height: 45
     }
 }));
 

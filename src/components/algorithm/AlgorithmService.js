@@ -1,8 +1,6 @@
+import db from "../../config/firebase";
 
-const data = {
-    algorithms: [
-        {
-            id: '2323',
-        }
-    ]
+export function getAlgorithmsService(idAlgorithm) {
+    return db.firestore().collection("algorithms").doc(idAlgorithm).get();
+
 }

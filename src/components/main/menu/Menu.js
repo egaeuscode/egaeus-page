@@ -43,7 +43,7 @@ export default function Menu() {
                         aria-controls="panel1bh-content"
                         id="panel1bh-header"
                     >
-                        <Typography className={classes.heading}>{category.name}</Typography>
+                        <Typography className={classes.heading} style={expanded === 'panel' + category.id ? {fontWeight: 'bold'} : {}}>{category.name}</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={classes.menuExpansionPanelDetails} children={getAlgorithms(category.id)}>
 
@@ -57,7 +57,7 @@ export default function Menu() {
         if( idCategory in algorithms) {
             return algorithms[idCategory].map(algorithm => {
                     return (
-                        <Link to={'/algorithms/' + algorithm.id} key={algorithm.id}>
+                        <Link className={classes.link} to={'/algorithms/' + algorithm.id} key={algorithm.id}>
                             <Typography className={classes.itemMenu}>
                                 {algorithm.name}
                             </Typography>
