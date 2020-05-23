@@ -7,6 +7,7 @@ import {useTheme} from '@material-ui/core/styles';
 import SwipeableViews from 'react-swipeable-views';
 import {useParams} from 'react-router-dom';
 import {getAlgorithmsService} from './AlgorithmService';
+import {getAlgorithmCode} from './../main/menu/MenuService'
 import Typography from '@material-ui/core/Typography';
 import MathJax from 'react-mathjax2'
 
@@ -39,6 +40,12 @@ export default function Algorithm() {
         });
     }
 
+    const handlerAlgo= () => {
+        console.log("algorimos ", idAlgorithm)
+        getAlgorithmCode(idAlgorithm)
+
+    }
+
     return (
         <div className={classes.root}>
             <div className={classes.content}>
@@ -51,7 +58,7 @@ export default function Algorithm() {
                         variant="fullWidth"
                     >
                         <Tab label="Descripción"/>
-                        <Tab label="Código"/>
+                        <Tab label="Código" onClick={handlerAlgo}/>
                         <Tab label="Ejercicios"/>
                         <Tab label="Vídeo"/>
                     </Tabs>
