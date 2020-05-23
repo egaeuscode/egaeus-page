@@ -1,4 +1,3 @@
-//import * as firebase from "firebase";
 import firebase from "firebase/app";
 import 'firebase/firestore'
 import 'firebase/storage'
@@ -13,6 +12,5 @@ const firebaseConfig = {
     appId: "1:879335604213:web:f2f01b18398ead1f49aabc"
 };
 export const db = firebase.initializeApp(firebaseConfig);
-export const storage = firebase.app().storage("gs://egaeus-75c1e.appspot.com");
-export const storageRef = storage.ref();
+export const storageRef = firebase.app().storage("gs://egaeus-75c1e.appspot.com").ref();
 export default  db;

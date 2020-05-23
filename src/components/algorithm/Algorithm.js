@@ -6,10 +6,11 @@ import algorithmStyles from "./AlgorithmStyle";
 import {useTheme} from '@material-ui/core/styles';
 import SwipeableViews from 'react-swipeable-views';
 import {useParams} from 'react-router-dom';
-import {getAlgorithmsService} from './AlgorithmService';
-import {getAlgorithmCode} from './../main/menu/MenuService'
+import {getAlgorithmsService, getAlgorithmCode} from './AlgorithmService';
 import Typography from '@material-ui/core/Typography';
 import MathJax from 'react-mathjax2'
+import ReactMarkdown from "react-markdown";
+import CodeBlock from "../../config/CodeBlock";
 
 export default function Algorithm() {
     const classes = algorithmStyles();
@@ -17,6 +18,7 @@ export default function Algorithm() {
     const [value, setValue] = React.useState(0);
     const [id, setId] = React.useState(undefined);
     const [algorithm, setAlgorithm] = React.useState(null);
+    const [algorithmCode , setAlgorithmCode] = React.useState(null);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -31,8 +33,9 @@ export default function Algorithm() {
     let {idAlgorithm} = useParams();
 
     if (idAlgorithm !== id) {
-        console.log('-----------')
+
         setId(idAlgorithm);
+        loadAlgorithm()
         getAlgorithmsService(idAlgorithm).then(snapshot => {
             const alg = snapshot.data();
             alg['id'] = snapshot.id;
@@ -40,10 +43,10 @@ export default function Algorithm() {
         });
     }
 
-    const handlerAlgo= () => {
-        console.log("algorimos ", idAlgorithm)
-        getAlgorithmCode(idAlgorithm)
-
+    function loadAlgorithm() {
+        getAlgorithmCode(idAlgorithm).then(algorithmText => {
+            setAlgorithmCode(algorithmText);
+        });
     }
 
     return (
@@ -58,7 +61,7 @@ export default function Algorithm() {
                         variant="fullWidth"
                     >
                         <Tab label="Descripción"/>
-                        <Tab label="Código" onClick={handlerAlgo}/>
+                        <Tab label="Código" />
                         <Tab label="Ejercicios"/>
                         <Tab label="Vídeo"/>
                     </Tabs>
@@ -71,7 +74,12 @@ export default function Algorithm() {
                             {idAlgorithm}
                         </div>
                         <div>
-                            Item Two
+                            <ReactMarkdown
+                                source={algorithmCode}
+                                skipHtml={false}
+                                escapeHtml={false}
+                                renderers={{ code: CodeBlock }}
+                            />
                         </div>
                         <div>
                             Item Three
