@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
@@ -18,6 +18,7 @@ export default function Algorithm() {
     const [algorithm, setAlgorithm] = React.useState(null);
     const [algorithmCode, setAlgorithmCode] = React.useState(null);
     const [description, setDescription] = React.useState(null);
+    const ref = useRef(null);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -34,7 +35,6 @@ export default function Algorithm() {
             const alg = snapshot.data();
             alg['id'] = snapshot.id;
             setAlgorithm(alg);
-            console.log(alg);
         });
     }
 
@@ -42,6 +42,12 @@ export default function Algorithm() {
         getAlgorithmCode(idAlgorithm).then(algorithmText => {
             setAlgorithmCode(algorithmText);
         });
+    }
+
+    function copy() {
+        ref.current.value = algorithmCode.substr(algorithmCode.indexOf('\n'), algorithmCode.lastIndexOf('`') - 2 - algorithmCode.indexOf('\n'));
+        ref.current.select();
+        document.execCommand('copy');
     }
 
     function loadDescription() {
@@ -85,6 +91,7 @@ export default function Algorithm() {
                                     escapeHtml={false}
                                 />
                             </div>
+                            <textarea style={{position: 'absolute', top: -10000}} ref={ref}></textarea>
                             <div role="tabpanel"
                                  hidden={value !== 2}
                                  id={'wrapped-tabpanel-2'}
@@ -119,6 +126,7 @@ export default function Algorithm() {
             </div>
             <div className={classes.information}>
                 <div className={classes.titleInfo}>
+                    <img alt='copy' onClick={copy} src={require('../../assets/content-copy.png')} style={{width: 30, top: 80, position: "absolute", cursor: 'pointer'}}/>
                     <Typography className={classes.title}>
                         {algorithm?.name}
                     </Typography>
@@ -127,7 +135,7 @@ export default function Algorithm() {
                     <div className={classes.rowInfo}>
                         <Typography className={classes.subtitleInfo}>Complejidad: </Typography>
                         <MathJax.Context>
-                            <MathJax.Node>{algorithm?.complexity}</MathJax.Node>
+                            <MathJax.Node>{algorithm && algorithm.complexity ? algorithm.complexity : ''}</MathJax.Node>
                         </MathJax.Context>
                     </div>
                     <div className={classes.rowInfo}>

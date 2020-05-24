@@ -42,7 +42,6 @@ export default function News() {
     );
 
     function getNewViews() {
-        console.log(news, news.length);
         return news.map(item => {
             return (
                 <li className={classes.news} key={item.id}>

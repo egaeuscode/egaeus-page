@@ -16,7 +16,6 @@ const theme = createMuiTheme({
 });
 
 function App() {
-  console.log("app")
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
