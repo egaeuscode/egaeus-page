@@ -14,6 +14,9 @@ const mainStyles = makeStyles((theme) => ({
     },
     title: {
         flexGrow: 1,
+        display: 'flex',
+        height: '100%',
+        alignItems: 'center'
     },
     menu: {
         width: '20%',
@@ -24,6 +27,10 @@ const mainStyles = makeStyles((theme) => ({
     footer: {
         backgroundColor: colors.black,
         height: 60,
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
     },
     center: {
         flex: 1,
@@ -46,6 +53,19 @@ const mainStyles = makeStyles((theme) => ({
     },
     githubImage: {
         height: 45
+    },
+    rootSearch: {
+        display: 'flex',
+        alignItems: 'center',
+        width: 300,
+        height: 30,
+    },
+    input: {
+        marginLeft: theme.spacing(1),
+        flex: 1,
+    },
+    iconButton: {
+        padding: 10,
     }
 }));
 

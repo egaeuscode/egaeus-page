@@ -3,30 +3,24 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
 import algorithmStyles from "./AlgorithmStyle";
-import {useTheme} from '@material-ui/core/styles';
-import SwipeableViews from 'react-swipeable-views';
 import {useParams} from 'react-router-dom';
-import {getAlgorithmsService, getAlgorithmCode} from './AlgorithmService';
+import {getAlgorithmsService, getAlgorithmCode, getDescription} from './AlgorithmService';
 import Typography from '@material-ui/core/Typography';
 import MathJax from 'react-mathjax2'
 import ReactMarkdown from "react-markdown";
 import CodeBlock from "../../config/CodeBlock";
+import {Link} from "@material-ui/core";
 
 export default function Algorithm() {
     const classes = algorithmStyles();
-    const theme = useTheme();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = React.useState(2);
     const [id, setId] = React.useState(undefined);
     const [algorithm, setAlgorithm] = React.useState(null);
-    const [algorithmCode , setAlgorithmCode] = React.useState(null);
+    const [algorithmCode, setAlgorithmCode] = React.useState(null);
+    const [description, setDescription] = React.useState(null);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        setId(idAlgorithm);
-    };
-
-    const handleChangeIndex = (index) => {
-        setValue(index);
         setId(idAlgorithm);
     };
 
@@ -35,10 +29,12 @@ export default function Algorithm() {
     if (idAlgorithm !== id) {
         setId(idAlgorithm);
         loadAlgorithm();
+        loadDescription();
         getAlgorithmsService(idAlgorithm).then(snapshot => {
             const alg = snapshot.data();
             alg['id'] = snapshot.id;
             setAlgorithm(alg);
+            console.log(alg);
         });
     }
 
@@ -46,6 +42,19 @@ export default function Algorithm() {
         getAlgorithmCode(idAlgorithm).then(algorithmText => {
             setAlgorithmCode(algorithmText);
         });
+    }
+
+    function loadDescription() {
+        getDescription(idAlgorithm).then(description => {
+            setDescription(description);
+        });
+    }
+
+    function a11yProps(index) {
+        return {
+            id: `wrapped-tab-${index}`,
+            'aria-controls': `wrapped-tabpanel-${index}`,
+        };
     }
 
     return (
@@ -59,34 +68,53 @@ export default function Algorithm() {
                         textColor="primary"
                         variant="fullWidth"
                     >
-                        <Tab label="Descripción"/>
-                        <Tab label="Código" />
-                        <Tab label="Ejercicios"/>
-                        <Tab label="Vídeo"/>
+                        <Tab value={1} label="Descripción" disabled={description ? false : true} {...a11yProps(1)} />
+                        <Tab value={2} label="Código" disabled={algorithmCode ? false : true} {...a11yProps(2)}/>
+                        <Tab value={3} label="Ejercicios" disabled={algorithm && algorithm.exercises ? false : true} {...a11yProps(3)} />
+                        <Tab value={4} label="Vídeo" disabled={algorithm && algorithm.video ? false : true} {...a11yProps(4)}/>
                     </Tabs>
-                    <SwipeableViews
-                        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                        index={value}
-                        onChangeIndex={handleChangeIndex}
-                    >
-                        <div>
-                            {idAlgorithm}
-                        </div>
-                        <div>
-                            <ReactMarkdown
-                                source={algorithmCode}
-                                skipHtml={false}
-                                escapeHtml={false}
-                                renderers={{ code: CodeBlock }}
-                            />
-                        </div>
-                        <div>
-                            Item Three
-                        </div>
-                        <div>
-                            Item Four
-                        </div>
-                    </SwipeableViews>
+                    <div style={{height: "calc(100% - 108px)", margin: 20}}>
+                            <div role="tabpanel"
+                                 hidden={value !== 1}
+                                 id={'wrapped-tabpanel-1'}
+                                 aria-labelledby={'wrapped-tab-1'}
+                                 className={classes.tabContainer}>
+                                <ReactMarkdown
+                                    source={description}
+                                    skipHtml={false}
+                                    escapeHtml={false}
+                                />
+                            </div>
+                            <div role="tabpanel"
+                                 hidden={value !== 2}
+                                 id={'wrapped-tabpanel-2'}
+                                 aria-labelledby={'wrapped-tab-2'}
+                                 className={classes.tabContainer}>
+                                <ReactMarkdown
+                                    source={algorithmCode}
+                                    skipHtml={false}
+                                    escapeHtml={false}
+                                    renderers={{code: CodeBlock}}
+                                />
+                            </div>
+                            <div role="tabpanel"
+                                 hidden={value !== 3}
+                                 id={'wrapped-tabpanel-3'}
+                                 aria-labelledby={'wrapped-tab-3'}
+                                 className={classes.tabContainer}>
+                                {getExercises()}
+                            </div>
+                            <div className={classes.tabContainer}
+                                 role="tabpanel"
+                                 hidden={value !== 4}
+                                 id={'wrapped-tabpanel-4'}
+                                 aria-labelledby={'wrapped-tab-4'}
+                                 style={{textAlign: 'center'}}
+                            >
+                                {getVideos()}
+                            </div>
+
+                    </div>
                 </Paper>
             </div>
             <div className={classes.information}>
@@ -99,7 +127,7 @@ export default function Algorithm() {
                     <div className={classes.rowInfo}>
                         <Typography className={classes.subtitleInfo}>Complejidad: </Typography>
                         <MathJax.Context>
-                            <MathJax.Node>{ algorithm?.complexity }</MathJax.Node>
+                            <MathJax.Node>{algorithm?.complexity}</MathJax.Node>
                         </MathJax.Context>
                     </div>
                     <div className={classes.rowInfo}>
@@ -112,4 +140,28 @@ export default function Algorithm() {
             </div>
         </div>
     );
+
+    function getExercises() {
+        if (algorithm && algorithm.exercises) {
+            return algorithm.exercises.map(exercise => {
+                return (
+                    <li style={{margin: 10}}><Link href={exercise}>{exercise}</Link></li>
+                )
+            });
+        }
+        return null;
+    }
+
+    function getVideos() {
+        if (algorithm && algorithm.video) {
+            return algorithm.video.map(video => {
+                return (
+                    <iframe width="560" height="315" src={video} frameBorder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen title={video}></iframe>
+                );
+            });
+        }
+        return null;
+    }
 }

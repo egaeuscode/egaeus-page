@@ -9,5 +9,12 @@ export function getAlgorithmCode(idAlgorithm) {
     return storageRef.child(idAlgorithm+".txt").getDownloadURL()
         .then( url => fetch(url))
         .then( response => response.text())
-        .catch( e => "System.out.println(\"Code not found!\");");
+        .catch( e => null);
+}
+
+export function getDescription(idAlgorithm) {
+    return storageRef.child('description/'+idAlgorithm+".txt").getDownloadURL()
+        .then( url => fetch(url))
+        .then( response => response.text())
+        .catch( e => null);
 }

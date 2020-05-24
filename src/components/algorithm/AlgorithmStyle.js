@@ -39,7 +39,11 @@ const algorithmStyles = makeStyles((theme) => ({
     },
     allInfo: {display: 'flex', flexDirection: 'column', flex: 1},
     rowInfo: {flexDirection: 'column', display: 'flex', marginLeft: 20, marginRight: 20, marginBottom: 10},
-    subtitleInfo: {fontWeight: 'bold', marginRight: 5}
+    subtitleInfo: {fontWeight: 'bold', marginRight: 5},
+    tabContainer:{
+        height: '100%',
+        overflowY: 'auto',
+    }
 }));
 
 export default algorithmStyles;
