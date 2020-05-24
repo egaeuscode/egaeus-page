@@ -11,3 +11,17 @@ export function getAlgorithmCode(idAlgorithm) {
         .then( response => response.text())
         .catch( e => "System.out.println(\"Code not found!\");");
 }
+
+export function searchAlgorithm(searchText) {
+    let url = "https://us-central1-egaeus-75c1e.cloudfunctions.net/searchAlgorithm";
+    return fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({search: searchText}),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(function (response) {
+        return response.json();
+
+    });
+}
