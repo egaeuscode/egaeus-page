@@ -20,6 +20,8 @@ export default function Main() {
     const [calledService, setCalledService] = React.useState(false);
     const [algorithms, setAlgorithms] = React.useState([]);
     const [showSearch, setShowSearch] = React.useState(false);
+    const [searchAlgorithms, setSearchAlgorithms] = React.useState([]);
+    const [selectedAlgorithm, setSelectedAlgorithm] = React.useState('');
     const history = useHistory();
 
     if (!calledService) {
@@ -40,18 +42,36 @@ export default function Main() {
         const list = [];
         algorithms.forEach(algorithm => {
             algorithm['count'] = 0;
-            search.forEach(item => algorithm['count'] += (algorithm['name'].toLocaleLowerCase().indexOf(item) >= 0 ? 1 : 0));
-            list.push(algorithm);
+            search.forEach(item => {
+                if (item.length > 0)
+                    algorithm['count'] += (algorithm['name'].toLocaleLowerCase().indexOf(item) >= 0 ? 1 : 0)
+            });
+            if (algorithm['count'] > 0)
+                list.push(algorithm);
         });
         list.sort((a, b) => a['count'] !== b['count'] ? b['count'] - a['count'] : a['name'].toLocaleLowerCase() <= b['name'].toLocaleLowerCase() ? -1 : 1);
-        setAlgorithms(list);
-        setShowSearch(true);
+        setSearchAlgorithms(list);
+        setShowSearch(list.length > 0 && event.target.value.trim().length > 0);
+        if (list.length > 0)
+            setSelectedAlgorithm(list[0]['id']);
     }
 
     function keyPress(event) {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && searchAlgorithms.length > 0) {
             setShowSearch(false);
-            history.push('/algorithms/' + algorithms[0].id);
+            history.push('/algorithms/' + selectedAlgorithm);
+        }
+    }
+
+    function keyUp(event) {
+        let index = searchAlgorithms.findIndex(algorithm => algorithm.id === selectedAlgorithm);
+        if (index >= 0) {
+            if (event.key === 'ArrowUp')
+                index = Math.max(index - 1, 0);
+            else if (event.key === 'ArrowDown') {
+                index = Math.min(index + 1, searchAlgorithms.length - 1);
+            }
+            setSelectedAlgorithm(searchAlgorithms[index].id);
         }
     }
 
@@ -74,9 +94,10 @@ export default function Main() {
                                 placeholder="Buscar"
                                 type="text"
                                 onChange={onSearch}
-                                onFocus={() => setShowSearch(true)}
-                                onBlur={() => setTimeout(() => setShowSearch(false), 100) }
+                                onFocus={() => setShowSearch(searchAlgorithms.length > 0)}
+                                onBlur={() => setTimeout(() => setShowSearch(false), 50)}
                                 onKeyPress={keyPress}
+                                onKeyUp={keyUp}
                             />
                             <div style={{
                                 backgroundColor: colors.black,
@@ -89,10 +110,15 @@ export default function Main() {
                                 display: showSearch ? '' : 'none'
                             }}>
                                 {
-                                    algorithms.slice(0, 8).map(algorithm => {
+                                    searchAlgorithms.slice(0, 8).map(algorithm => {
                                         return (
-                                            <Link to={'/algorithms/' + algorithm.id} key={algorithm.id}>
-                                                <Typography style={{margin: 10, color: colors.white}}>
+                                            <Link to={'/algorithms/' + algorithm.id} key={algorithm.id}
+                                                  style={{textDecoration: 'none'}}>
+                                                <Typography style={{
+                                                    margin: 10,
+                                                    color: selectedAlgorithm === algorithm.id ? colors.black : colors.white,
+                                                    backgroundColor: selectedAlgorithm === algorithm.id ? colors.white : colors.black,
+                                                }}>
                                                     {algorithm['name']}
                                                 </Typography>
                                             </Link>
@@ -110,7 +136,8 @@ export default function Main() {
                         <img src={require('../../assets/codeforces_logo.png')} className={classes.codefocesImage}
                              alt='codeforces'></img>
                     </a>
-                    <a href='https://www.youtube.com/channel/UC5Cnp7HMS12SJmvIYHUnwdQ' target='_blank' rel="noopener noreferrer">
+                    <a href='https://www.youtube.com/channel/UC5Cnp7HMS12SJmvIYHUnwdQ' target='_blank'
+                       rel="noopener noreferrer">
                         <img src={require('../../assets/yt_logo_rgb_dark.png')} className={classes.youtubeImage}
                              alt='youtube'></img>
                     </a>

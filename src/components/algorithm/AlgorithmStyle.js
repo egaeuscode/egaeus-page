@@ -9,13 +9,15 @@ const algorithmStyles = makeStyles((theme) => ({
         margin: 10,
     },
     content: {
-        flex: 1
+        overflow: "hidden",
+        width: '100%'
     },
     information: {
         width: 250,
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        height: '100%'
     },
     paper: {
         height: '100%',
@@ -37,13 +39,13 @@ const algorithmStyles = makeStyles((theme) => ({
         fontWeight: 'bold',
         color: colors.silver,
     },
-    allInfo: {display: 'flex', flexDirection: 'column', flex: 1},
+    allInfo: {display: 'flex', flexDirection: 'column', flex: 2},
     rowInfo: {flexDirection: 'column', display: 'flex', marginLeft: 20, marginRight: 20, marginBottom: 10},
     subtitleInfo: {fontWeight: 'bold', marginRight: 5},
     tabContainer:{
         height: '100%',
         overflowY: 'auto',
-    }
+    },
 }));
 
 export default algorithmStyles;

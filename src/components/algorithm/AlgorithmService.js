@@ -6,15 +6,15 @@ export function getAlgorithmsService(idAlgorithm) {
 }
 
 export function getAlgorithmCode(idAlgorithm) {
-    return storageRef.child(idAlgorithm+".txt").getDownloadURL()
-        .then( url => fetch(url))
-        .then( response => response.text())
-        .catch( e => null);
+    return storageRef.child("algorithms/" + idAlgorithm + ".java").getDownloadURL()
+        .then(url => fetch(url))
+        .then(response => response.text())
+        .catch(e => null);
 }
 
 export function getDescription(idAlgorithm) {
-    return storageRef.child('description/'+idAlgorithm+".txt").getDownloadURL()
-        .then( url => fetch(url))
-        .then( response => response.text())
-        .catch( e => null);
+    return storageRef.child('description/' + idAlgorithm + ".txt").getDownloadURL()
+        .then(url => fetch(url))
+        .then(response => response.text())
+        .catch(e => null);
 }

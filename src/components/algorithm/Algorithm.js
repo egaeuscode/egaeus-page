@@ -76,57 +76,60 @@ export default function Algorithm() {
                     >
                         <Tab value={1} label="Descripción" disabled={description ? false : true} {...a11yProps(1)} />
                         <Tab value={2} label="Código" disabled={algorithmCode ? false : true} {...a11yProps(2)}/>
-                        <Tab value={3} label="Ejercicios" disabled={algorithm && algorithm.exercises ? false : true} {...a11yProps(3)} />
-                        <Tab value={4} label="Vídeo" disabled={algorithm && algorithm.video ? false : true} {...a11yProps(4)}/>
+                        <Tab value={3} label="Ejercicios"
+                             disabled={algorithm && algorithm.exercises ? false : true} {...a11yProps(3)} />
+                        <Tab value={4} label="Vídeo"
+                             disabled={algorithm && algorithm.video ? false : true} {...a11yProps(4)}/>
                     </Tabs>
                     <div style={{height: "calc(100% - 108px)", margin: 20}}>
-                            <div role="tabpanel"
-                                 hidden={value !== 1}
-                                 id={'wrapped-tabpanel-1'}
-                                 aria-labelledby={'wrapped-tab-1'}
-                                 className={classes.tabContainer}>
-                                <ReactMarkdown
-                                    source={description}
-                                    skipHtml={false}
-                                    escapeHtml={false}
-                                />
-                            </div>
-                            <textarea style={{position: 'absolute', top: -10000}} ref={ref}></textarea>
-                            <div role="tabpanel"
-                                 hidden={value !== 2}
-                                 id={'wrapped-tabpanel-2'}
-                                 aria-labelledby={'wrapped-tab-2'}
-                                 className={classes.tabContainer}>
-                                <ReactMarkdown
-                                    source={algorithmCode}
-                                    skipHtml={false}
-                                    escapeHtml={false}
-                                    renderers={{code: CodeBlock}}
-                                />
-                            </div>
-                            <div role="tabpanel"
-                                 hidden={value !== 3}
-                                 id={'wrapped-tabpanel-3'}
-                                 aria-labelledby={'wrapped-tab-3'}
-                                 className={classes.tabContainer}>
-                                {getExercises()}
-                            </div>
-                            <div className={classes.tabContainer}
-                                 role="tabpanel"
-                                 hidden={value !== 4}
-                                 id={'wrapped-tabpanel-4'}
-                                 aria-labelledby={'wrapped-tab-4'}
-                                 style={{textAlign: 'center'}}
-                            >
-                                {getVideos()}
-                            </div>
+                        <div role="tabpanel"
+                             hidden={value !== 1}
+                             id={'wrapped-tabpanel-1'}
+                             aria-labelledby={'wrapped-tab-1'}
+                             className={classes.tabContainer}>
+                            <ReactMarkdown
+                                source={description}
+                                skipHtml={false}
+                                escapeHtml={false}
+                            />
+                        </div>
+                        <textarea style={{position: 'absolute', top: -10000}} ref={ref}></textarea>
+                        <div role="tabpanel"
+                             hidden={value !== 2}
+                             id={'wrapped-tabpanel-2'}
+                             aria-labelledby={'wrapped-tab-2'}
+                             className={classes.tabContainer}>
+                            <ReactMarkdown
+                                source={algorithmCode}
+                                skipHtml={false}
+                                escapeHtml={false}
+                                renderers={{code: CodeBlock}}
+                            />
+                        </div>
+                        <div role="tabpanel"
+                             hidden={value !== 3}
+                             id={'wrapped-tabpanel-3'}
+                             aria-labelledby={'wrapped-tab-3'}
+                             className={classes.tabContainer}>
+                            {getExercises()}
+                        </div>
+                        <div className={classes.tabContainer}
+                             role="tabpanel"
+                             hidden={value !== 4}
+                             id={'wrapped-tabpanel-4'}
+                             aria-labelledby={'wrapped-tab-4'}
+                             style={{textAlign: 'center'}}
+                        >
+                            {getVideos()}
+                        </div>
 
                     </div>
                 </Paper>
             </div>
             <div className={classes.information}>
                 <div className={classes.titleInfo}>
-                    <img alt='copy' onClick={copy} src={require('../../assets/content-copy.png')} style={{width: 30, top: 80, position: "absolute", cursor: 'pointer'}}/>
+                    <img alt='copy' onClick={copy} src={require('../../assets/content-copy.png')}
+                         style={{width: 30, top: 80, position: "absolute", cursor: 'pointer'}}/>
                     <Typography className={classes.title}>
                         {algorithm?.name}
                     </Typography>
@@ -134,9 +137,7 @@ export default function Algorithm() {
                 <div className={classes.allInfo}>
                     <div className={classes.rowInfo}>
                         <Typography className={classes.subtitleInfo}>Complejidad: </Typography>
-                        <MathJax.Context>
-                            <MathJax.Node>{algorithm && algorithm.complexity ? algorithm.complexity : ''}</MathJax.Node>
-                        </MathJax.Context>
+                        {getComplexity()}
                     </div>
                     <div className={classes.rowInfo}>
                         <Typography className={classes.subtitleInfo}>Autor: </Typography>
@@ -171,5 +172,17 @@ export default function Algorithm() {
             });
         }
         return null;
+    }
+
+    function getComplexity() {
+        if (algorithm && algorithm.complexity) {
+            return algorithm.complexity.split(",").map(text => {
+                return (
+                    <MathJax.Context>
+                        <MathJax.Node>{text}</MathJax.Node>
+                    </MathJax.Context>
+                )
+            });
+        } else return (<Typography>{algorithm && algorithm.complexity ? '' : 'No disponible'}</Typography>)
     }
 }
